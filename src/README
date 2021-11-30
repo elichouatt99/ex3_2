@@ -1,0 +1,47 @@
+eli.chouatt
+342767829
+
+1.We implemented this game in a way to make each class be responsible for one tasks.
+     Furthermore, we divided them into two packages:
+     On one side, the game objects, and on the other side, the strategies.
+     For the strategies, we decides, because all the strategies have a same implementation, we used an interface, to
+     be sure to implements all the necessary functions. And because some strategy are composed of some, we decided to
+     create a decorator that will take a first strategy and decorate it with an other behavior.
+
+2.  Design I choose for ChangeTimeScaleStrategy, Clock, DoubleStrategy.
+    ChangeTimeScale: As all the Strategies, we first need to remove the brick and decrease the counter at collision
+    with a ball. Then I choose to extends the decorator RemoveBrickStrategyDecorator and RemoveBrickStrategy as element
+    toBeDecorated, and I added to the class, its special comportment: at collision, I create a Clock object that will
+    get the renderable and the newTimeScale depending to the situation.
+    In the Clock class, I decided to override shouldCollideWith to make the object collision only with objects of paddle
+    instance. In case of collision it will change the time scale, as required.
+    DoubleStrategy: We implemented our code by decorator pattern, then the most natural way to give to a brick a double
+    comportment was to use this decorator with a first behavior as toBeDecorated, and a second as decoration.
+    To get our behaviour, I call recursively the function getStrategy, with some condition to make sure that one of
+    the comportment of a Double will not be the simple removeBrickStrategy and that we will get more that three
+    behaviours. To verify this condition, I added a field level that count how much recursively calls i did.
+
+3.algo:
+       -alotStudyTime: (greedy algorithm) We first sort the tasks and the timeSlots by ascending order.
+       Then, we run over the timeSlots:when we get a time slot with length greater that the number of hours needed
+       to complete the task, we add the task to our solution, and we then search a new time slot that will match to our
+       new task. Because we sorted, the arrays, we are sure that if we all the time choose the smaller for a given task.
+       We run one time over the tasks and one time over the timeSlots, then our running time is O(n).
+
+       -minLeap: (greedy algorithm) In this algorithm, each time we choose the leaf that will make us able to get the
+       most distant next leaf. Only when the end is reachable with one leap, we choose to go straight there.
+       We run at most two times over each leaf (because when we prefer to leap to a leaf closer than the leaf k,
+       it's to leap to leaf at least more distant that the the leaf k). Then our running time is O(n).
+
+       -bucketWalk: (dynamic algorithm) At each trip, the boy can return using either 2 buckets, or with one.
+       Then the number of different way at the i step (i litters), will be the number of way to fill i-2 litters
+       (if he fill 2 litter at the step i-2) more the number of way to fill i-1 litter (if he fill 1 litter at the
+       step i-1). That's the fibonnacci number. Our basics cases are for 0 and 1 litters: only one way.
+       We run over n iterations, doing in each one a constant number of operations. Then O(n).
+
+       -numTrees: (dynamic array) We will construct an array that will save in the index i, the number of differents
+       three that we can get with i nodes. At each iteration, we will sum the different combination that can be done,
+       depending where we decide to put the new node.
+       We start doing one inner iteration in our first iteration, then 2, ... until n iterations in our last iteration.
+       That's an arithmetic serie that is equal to n(n-1)/2. That why, our runnig time is O(n^2)
+
